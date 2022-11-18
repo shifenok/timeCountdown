@@ -1,21 +1,28 @@
-use tauri::{AppHandle, CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, SystemTraySubmenu};
-
+use tauri::{AppHandle, CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem };
+// SystemTraySubmenu
+use tauri::Manager;
 // 托盘菜单
 pub fn menu() -> SystemTray {
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
-    let show = CustomMenuItem::new("show".to_string(), "Show");
-    let hide = CustomMenuItem::new("hide".to_string(), "Hide");
-    let change_ico = CustomMenuItem::new("change_ico".to_string(), "Change Icon");
+    let quit = CustomMenuItem::new("quit".to_string(), "退出");
+    let show = CustomMenuItem::new("show".to_string(), "显示");
+    let hide = CustomMenuItem::new("hide".to_string(), "隐藏");
+    // let change_ico = CustomMenuItem::new("change_ico".to_string(), "Change Icon");
+    // let tray_menu = SystemTrayMenu::new()
+    //     .add_submenu(SystemTraySubmenu::new(
+    //         "Language", // 语言菜单
+    //         SystemTrayMenu::new()
+    //             .add_item(CustomMenuItem::new("lang_english".to_string(), "English"))
+    //             .add_item(CustomMenuItem::new("lang_zh_CN".to_string(), "简体中文"))
+    //             .add_item(CustomMenuItem::new("lang_zh_HK".to_string(), "繁体中文")),
+    //     ))
+    //     .add_native_item(SystemTrayMenuItem::Separator) // 分割线
+    //     .add_item(change_ico)
+    //     .add_native_item(SystemTrayMenuItem::Separator)
+    //     .add_item(hide)
+    //     .add_item(show)
+    //     .add_native_item(SystemTrayMenuItem::Separator)
+    //     .add_item(quit);
     let tray_menu = SystemTrayMenu::new()
-        .add_submenu(SystemTraySubmenu::new(
-            "Language", // 语言菜单
-            SystemTrayMenu::new()
-                .add_item(CustomMenuItem::new("lang_english".to_string(), "English"))
-                .add_item(CustomMenuItem::new("lang_zh_CN".to_string(), "简体中文"))
-                .add_item(CustomMenuItem::new("lang_zh_HK".to_string(), "繁体中文")),
-        ))
-        .add_native_item(SystemTrayMenuItem::Separator) // 分割线
-        .add_item(change_ico)
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(hide)
         .add_item(show)
@@ -28,7 +35,33 @@ pub fn menu() -> SystemTray {
 // 托盘事件
 pub fn handler(app: &AppHandle, event: SystemTrayEvent) {
     match event {
+        SystemTrayEvent::LeftClick {
+            position: _,
+            size: _,
+            ..
+        } => {
+            println!("system tray received a left click");
+        }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+            "quit" => {
+                std::process::exit(0);
+            }
+            "hide" => {
+                let window = app.get_window("main").unwrap();
+                // let item_handle = app.tray_handle().get_item(&id);
+                // window.is_visible();
+                // if window.is_visible() {
+                    window.hide().unwrap();
+                //     item_handle.set_title("显示").unwrap();
+                // } else {
+                //     window.show().unwrap();
+                //     item_handle.set_title("隐藏").unwrap();
+                // }
+            }
+            "show" => {
+                let window = app.get_window("main").unwrap();
+                window.show().unwrap();
+            }
             "change_ico" => { // 更新托盘图标
                 app.tray_handle()
                     .set_icon(tauri::Icon::Raw(

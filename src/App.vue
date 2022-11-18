@@ -1,6 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive } from "vue";
 // import { invoke } from "@tauri-apps/api/tauri";
+import { WebviewWindow } from "@tauri-apps/api/window"
 
 const counterClass = reactive({
   isShowInput: false,
@@ -73,7 +74,8 @@ const onBlur = () => {
   counterClass.inputCounter = ''
 }
 const handleCloseWindow = () => {
-
+  const win = WebviewWindow.getByLabel('main')
+  win?.hide()
 }
 onMounted(() => {
   if(timerClass.timer) clearInterval(timerClass.timer)
@@ -88,7 +90,7 @@ onMounted(() => {
         <icon-pause-one v-if="!counterClass.isCountdownStop" theme="outline" size="26" fill="#269b73" title="暂停时间" @click="handleStopCountdown" />
         <icon-play v-else theme="outline" size="26" fill="#269b73" title="开始时间" @click="handleStopCountdown" />
         <icon-text theme="outline" size="26" fill="#d574ff" title="自定义" @click="handleCustomTime"/>
-        <icon-off-screen-one theme="outline" size="25" fill="#269b73" title="" @click="handleCloseWindow"/>
+        <icon-power theme="outline" size="26" fill="#ff9e74" title="关闭" @click="handleCloseWindow"/>
       </div>
       <input v-else id="greet-input" v-model="counterClass.inputCounter" placeholder="时间单位·分" @keypress="handleKeyPress" @blur="onBlur" />
       <div class="count-down" data-tauri-drag-region>
