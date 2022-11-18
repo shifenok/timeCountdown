@@ -14,8 +14,9 @@ jobs:
   publish:
     strategy:
       fail-fast: false
+#       , ubuntu-latest, windows-latest
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: [macos-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -63,5 +64,5 @@ jobs:
           tagName: $RELEASE_VERSION # the action automatically replaces \_\_VERSION\_\_ with the app version
           releaseName: $RELEASE_VERSION
           releaseBody: 'See the assets to download and install this version.'
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
