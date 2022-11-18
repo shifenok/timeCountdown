@@ -61,8 +61,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.P_TOKEN }}
         with:
-          tagName: $RELEASE_VERSION # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: $RELEASE_VERSION
+          tagName: RELEASE_VERSION # the action automatically replaces \_\_VERSION\_\_ with the app version
+          releaseName: RELEASE_VERSION
           releaseBody: 'See the assets to download and install this version.'
           releaseDraft: false
           prerelease: false
