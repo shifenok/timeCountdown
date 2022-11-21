@@ -3,10 +3,10 @@ use tauri::{AppHandle, CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMe
 use tauri::Manager;
 // 托盘菜单
 pub fn menu() -> SystemTray {
-    let quit = CustomMenuItem::new("quit".to_string(), "退出");
-    let show = CustomMenuItem::new("show".to_string(), "显示");
-    let hide = CustomMenuItem::new("hide".to_string(), "隐藏");
-    // let change_ico = CustomMenuItem::new("change_ico".to_string(), "Change Icon");
+    let quit = CustomMenuItem::new("quit".to_string(), "退出沙漏");
+    let show = CustomMenuItem::new("show".to_string(), "显示沙漏");
+    let hide = CustomMenuItem::new("hide".to_string(), "隐藏沙漏");
+    let change_ico = CustomMenuItem::new("change_ico".to_string(), "切换图标");
     // let tray_menu = SystemTrayMenu::new()
     //     .add_submenu(SystemTraySubmenu::new(
     //         "Language", // 语言菜单
@@ -23,6 +23,8 @@ pub fn menu() -> SystemTray {
     //     .add_native_item(SystemTrayMenuItem::Separator)
     //     .add_item(quit);
     let tray_menu = SystemTrayMenu::new()
+        .add_native_item(SystemTrayMenuItem::Separator) // 分割线
+        .add_item(change_ico)
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(hide)
         .add_item(show)
@@ -65,7 +67,7 @@ pub fn handler(app: &AppHandle, event: SystemTrayEvent) {
             "change_ico" => { // 更新托盘图标
                 app.tray_handle()
                     .set_icon(tauri::Icon::Raw(
-                        include_bytes!("../icons/toolbox.png").to_vec(),
+                        include_bytes!("../icons/cat.png").to_vec(),
                     ))
                     .unwrap();
             }

@@ -105,11 +105,12 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px outset #747bff;
+  /* border: 1px outset transparent; */
   border-radius: 8px;
   padding: 6px 0 12px;
-  background-color: rgba(0, 0, 0, .25);
-  backdrop-filter: invert(80%);
+  /* background-color: transparent; */
+  /* backdrop-filter: invert(80%); */
+  transition: all .2s linear;
 }
 .container-base {
   /* width: 200px; */
@@ -119,6 +120,14 @@ onMounted(() => {
   align-items: center;
   position: relative;
 }
+/* .container:hover {
+  border: 1px outset #747bff;
+  background-color: rgba(0, 0, 0, .25);
+  backdrop-filter: invert(80%);
+} */
+.container:hover .btn-wrap {
+  visibility: visible;
+}
 .logo.vite:hover {
   filter: drop-shadow(0 0 2em #747bff);
 }
@@ -127,6 +136,7 @@ onMounted(() => {
   filter: drop-shadow(0 0 2em #249b73);
 }
 .btn-wrap {
+  visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
